@@ -1,0 +1,108 @@
+# =====================================================================
+#  STED Training - Apache rules (security + performance)
+#  Every module-specific block is wrapped in <IfModule>, so a server
+#  without that module simply skips the block instead of returning 500.
+# =====================================================================
+
+# 🚫 Block directory listings
+Options -Indexes
+
+# ---------------------------------------------------------------------
+# 🔒 1) Deny access to sensitive files
+# ---------------------------------------------------------------------
+<FilesMatch "^(\.env.*|\.git.*|\.htaccess.*|\.htpasswd|\.DS_Store|\.user\.ini|php\.ini|error_log|composer\.(json|lock)|package(-lock)?\.json|web\.config)$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "(?i)(\.(bak|old|orig|save|swp|sql|sqlite|dump|log|ini|sh|dist|zip|rar|7z|tar|gz|tgz|swf|phps|pht)|^(Thumbs\.db|yarn\.lock|gulpfile\.js|webpack\.config\.js|build-config\.js))$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Hidden folders/files (.git, .vscode, .svn ...) - except Let's Encrypt (.well-known)
+    RewriteRule (^|/)\.(?!well-known(/|$)) - [F,L]
+
+    # Framework internals and server-only folders
+    RewriteRule ^(application|system|database|cgi-bin|theme_academy/system)(/|$) - [F,L,NC]
+
+    # Old backup copies (names with 3+ underscores) - uploads are excluded
+    RewriteCond %{REQUEST_URI} !/uploads/ [NC]
+    RewriteRule _{3,}[^/]*\.(php|html?|css|js|json|txt)$ - [F,L,NC]
+    RewriteRule ^(lib/devexpress_{3,}|sted_theme/assets_{3,}|sted_theme/html_{3,}) - [F,L,NC]
+
+    # Leftover test/demo scripts that are not part of the site (apisend.php dumps the DB schema!)
+    RewriteRule ^(apisend\.php|testsendmsg\.php|test\.html|index_+\.html|js/vplayer\.php|cards/add_text_to_image\.php)$ - [F,L,NC]
+    RewriteRule ^ajax_image_upload/((ajaximage|db|index)\.php|loadimg-master/) - [F,L,NC]
+    RewriteRule ^(js/ckeditor/_samples|theme_academy/sources)(/|$) - [F,L,NC]
+    RewriteRule /bower_components/.+/(demos?|tests?|spec|examples?)/ - [F,L,NC]
+
+    # Never execute scripts from upload folders
+    RewriteRule ^(uploads|ajax_image_upload/uploads)/.*\.(php[0-9]?|phtml|phar|pl|py|cgi|sh|shtml)$ - [F,L,NC]
+
+    # (Optional) force HTTPS on the live domain - uncomment after confirming SSL works:
+    # RewriteCond %{HTTPS} off
+    # RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1) [NC]
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+    # ✅ CodeIgniter URL Rewriting
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
+
+# ---------------------------------------------------------------------
+# 🛡️ 2) Security headers
+# ---------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=()"
+    Header always unset X-Powered-By
+    Header unset X-Powered-By
+    # (Optional) enable once the whole site is served over HTTPS:
+    # Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+</IfModule>
+
+# ---------------------------------------------------------------------
+# ⚡ 3) Compression (gzip) for text assets
+# ---------------------------------------------------------------------
+<IfModule mod_deflate.c>
+    <IfModule mod_filter.c>
+        AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml text/javascript
+        AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json
+        AddOutputFilterByType DEFLATE application/xml application/rss+xml image/svg+xml image/x-icon
+        AddOutputFilterByType DEFLATE font/ttf font/otf application/vnd.ms-fontobject application/x-font-ttf
+    </IfModule>
+</IfModule>
+
+# ---------------------------------------------------------------------
+# ⚡ 4) Browser caching for static files (PHP pages are not cached)
+# ---------------------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/html                     "access plus 0 seconds"
+    ExpiresByType text/css                      "access plus 7 days"
+    ExpiresByType text/javascript               "access plus 7 days"
+    ExpiresByType application/javascript        "access plus 7 days"
+    ExpiresByType application/x-javascript      "access plus 7 days"
+    ExpiresByType image/jpeg                    "access plus 1 month"
+    ExpiresByType image/png                     "access plus 1 month"
+    ExpiresByType image/gif                     "access plus 1 month"
+    ExpiresByType image/webp                    "access plus 1 month"
+    ExpiresByType image/svg+xml                 "access plus 1 month"
+    ExpiresByType image/x-icon                  "access plus 1 month"
+    ExpiresByType image/vnd.microsoft.icon      "access plus 1 month"
+    ExpiresByType video/mp4                     "access plus 1 month"
+    ExpiresByType application/pdf               "access plus 1 month"
+    ExpiresByType font/woff                     "access plus 1 year"
+    ExpiresByType font/woff2                    "access plus 1 year"
+    ExpiresByType font/ttf                      "access plus 1 year"
+    ExpiresByType font/otf                      "access plus 1 year"
+    ExpiresByType application/font-woff         "access plus 1 year"
+    ExpiresByType application/font-woff2        "access plus 1 year"
+    ExpiresByType application/x-font-ttf        "access plus 1 year"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+</IfModule>

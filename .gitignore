@@ -1,0 +1,35 @@
+# ---- Large uploaded content and user data (too big for GitHub, and PII) ----
+/uploads/
+/uploads_backup_*/
+/docs/
+
+# ---- Archives and media (GitHub rejects files > 100 MB) ----
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.tgz
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+
+# ---- Dependencies / build output ----
+/node_modules/
+**/node_modules/
+
+# ---- Secrets (real keys live here, never committed) ----
+/application/config/secrets.php
+
+# ---- Junk / backup scripts that contained hard-coded credentials ----
+/apisend.php
+/application/controllers/course____30.php
+/application/controllers/course_____29_12_2025.php
+
+# ---- OS / editor junk ----
+.DS_Store
+Thumbs.db
+*.log
+*.cache
