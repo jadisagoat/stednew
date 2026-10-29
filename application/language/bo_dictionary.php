@@ -78,6 +78,16 @@ $BO_DICT['en'] += array(
 'login_err_required' => 'The %s field is required.',
 'login_err_min'  => 'The %s field must be at least %s characters in length.',
 'login_err_max'  => 'The %s field can not exceed %s characters in length.',
+'login_panel_eyebrow' => 'Control panel',
+'login_panel_title'   => 'Manage your training platform from one place',
+'login_panel_text'    => 'Courses, learners, exams and certificates - everything is organised and ready for you.',
+'login_feat_courses'  => 'Courses, lessons and videos',
+'login_feat_exams'    => 'Exams and automatic certificates',
+'login_feat_reports'  => 'Learner progress and reports',
+'login_show_password' => 'Show password',
+'login_caps'          => 'Caps Lock is on',
+'login_back_site'     => 'Back to website',
+'login_signing_in'    => 'Signing in...',
 );
 $BO_DICT['ar'] += array(
 'login_title'    => 'دخول الإدارة',
@@ -91,6 +101,16 @@ $BO_DICT['ar'] += array(
 'login_err_required' => 'حقل %s مطلوب.',
 'login_err_min'  => 'يجب ألا يقل حقل %s عن %s أحرف.',
 'login_err_max'  => 'يجب ألا يزيد حقل %s عن %s حرفاً.',
+'login_panel_eyebrow' => 'لوحة التحكم',
+'login_panel_title'   => 'أدِر منصتك التدريبية من مكان واحد',
+'login_panel_text'    => 'الدورات والمتدربون والامتحانات والشهادات، كلها منظمة وجاهزة بين يديك.',
+'login_feat_courses'  => 'الدورات والدروس والفيديوهات',
+'login_feat_exams'    => 'الامتحانات والشهادات التلقائية',
+'login_feat_reports'  => 'متابعة تقدم المتدربين والتقارير',
+'login_show_password' => 'إظهار كلمة المرور',
+'login_caps'          => 'زر الأحرف الكبيرة (Caps Lock) مفعّل',
+'login_back_site'     => 'العودة إلى الموقع',
+'login_signing_in'    => 'جارٍ الدخول...',
 );
 
 /* ---------------------------------------------------------------- dashboard */
