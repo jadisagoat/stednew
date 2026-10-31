@@ -3293,3 +3293,170 @@ body.mx-dlg-lock { overflow: hidden; }
 	.mx-dlg, .mx-dlg-card { transition: none; }
 	.mx-dlg.is-open .mx-dlg-icon, .mx-dlg.is-open .mx-dlg-icon i { animation: none; }
 }
+
+/* ==========================================================================
+   HEADER - USER DROPDOWN (avatar > profile card + links)
+   markup: include/_header.php (li.mx-user). Same visual language as the
+   account sidebar (pages/account.css): navy card, teal glow, gradient ring.
+   ========================================================================== */
+/* trigger avatar */
+body.mx-ui .mx-user-btn {
+	position: relative;
+	width: 42px !important; height: 42px !important;
+	cursor: pointer;
+	font: 800 14px/1 var(--mx-font);
+	letter-spacing: .03em;
+	box-shadow: 0 0 0 2px rgba(255, 255, 255, .22), 0 10px 22px -12px rgba(0, 173, 177, .9);
+	transition: transform .35s var(--mx-ease), box-shadow .35s var(--mx-ease);
+}
+body.mx-ui .mx-user-btn > img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+body.mx-ui .mx-user-dot {
+	position: absolute; right: -1px; bottom: -1px;
+	width: 12px; height: 12px; border-radius: 50%;
+	background: #22C55E; border: 2px solid var(--mx-navy);
+}
+body.mx-ui .mx-user:hover .mx-user-btn,
+body.mx-ui .mx-user:focus-within .mx-user-btn {
+	transform: translateY(-1px) scale(1.05);
+	box-shadow: 0 0 0 3px rgba(255, 255, 255, .35), 0 14px 26px -12px rgba(0, 173, 177, 1);
+}
+body.mx-ui .mx-user-btn:focus-visible { outline: 3px solid rgba(20, 198, 201, .6); outline-offset: 3px; }
+
+/* profile card (first row of the dropdown) */
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li.mx-user-card {
+	position: relative; isolation: isolate; overflow: hidden;
+	display: flex; align-items: center; gap: 14px;
+	padding: 18px 18px 16px;
+	background: var(--mx-grad-navy);
+	border-bottom: 0 !important;
+}
+body.mx-ui .mx-user-glow { position: absolute; z-index: -1; width: 190px; height: 190px; right: -70px; top: -95px; border-radius: 50%; background: rgba(0, 173, 177, .5); filter: blur(42px); pointer-events: none; }
+body.mx-ui .mx-user-dots { position: absolute; z-index: -1; left: 10px; bottom: 6px; width: 90px; height: 50px; background-image: radial-gradient(rgba(255, 255, 255, .16) 1.5px, transparent 1.5px); background-size: 12px 12px; pointer-events: none; }
+body.mx-ui .mx-user-avatar {
+	flex: none; width: 56px; height: 56px; border-radius: 50%; padding: 2.5px;
+	background: conic-gradient(from 200deg, var(--mx-teal), var(--mx-teal-2), var(--mx-orange), var(--mx-teal));
+	box-shadow: 0 14px 26px -14px rgba(0, 0, 0, .8);
+}
+body.mx-ui .mx-user-avatar > img,
+body.mx-ui .mx-user-avatar > span {
+	width: 100%; height: 100%; border-radius: 50%;
+	border: 2.5px solid var(--mx-navy);
+	object-fit: cover; display: grid; place-items: center;
+	background: var(--mx-navy-2);
+	color: #fff; font: 800 18px var(--mx-font); letter-spacing: .02em; text-transform: uppercase;
+}
+body.mx-ui .mx-user-who { min-width: 0; flex: 1; display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+body.mx-ui .mx-user-who > b,
+body.mx-ui .mx-user-who > small { display: block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.mx-ui .mx-user-who > b { color: #fff; font: 700 15px/1.25 var(--mx-font); }
+body.mx-ui .mx-user-who > small { margin-top: 3px; color: rgba(255, 255, 255, .66); font: 500 12.5px/1.3 var(--mx-font); }
+body.mx-ui .mx-user-role {
+	display: inline-flex; align-items: center; gap: 6px;
+	margin-top: 9px; padding: 4px 10px;
+	border-radius: 100px;
+	background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .14);
+	color: #fff; font: 700 11px/1 var(--mx-font); letter-spacing: .04em;
+}
+body.mx-ui .mx-user-role i { color: var(--mx-teal-2); font-size: 10px; }
+
+/* links (selectors long on purpose: they must beat menu.css / the generic sub-menu hover above) */
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li { border-bottom: 0 !important; margin: 0 8px; }
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li.mx-user-card { margin: 0; }
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li.mx-user-card + li { margin-top: 8px; }
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li:last-child { margin-bottom: 8px; }
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li.mx-user-foot { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--mx-line); }
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-link {
+	display: flex !important; align-items: center; gap: 12px;
+	width: auto !important; margin: 0;
+	padding: 9px 10px 9px 8px !important;
+	border-radius: 12px;
+	background: transparent !important;
+	color: var(--mx-ink) !important;
+	font: 600 14px/1.2 var(--mx-font);
+	text-align: left;
+	transition: background .25s, color .25s;
+}
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-link > i:first-child {
+	flex: none; position: static; margin: 0 !important;
+	width: 36px; height: 36px; border-radius: 11px;
+	display: grid; place-items: center;
+	font-size: 14px;
+	background: rgba(0, 173, 177, .1); color: var(--mx-teal-dark);
+	transition: background .25s, color .25s, transform .35s var(--mx-ease);
+}
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-link > span { flex: 1; min-width: 0; }
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-link > i.mx-user-arrow {
+	flex: none; position: static; margin: 0 !important;
+	font-size: 10px; color: var(--mx-muted);
+	opacity: 0; transform: translateX(-6px);
+	transition: opacity .25s, transform .35s var(--mx-ease), color .25s;
+}
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li:hover > a.mx-user-link,
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-link:hover,
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-link:focus-visible {
+	padding-left: 8px !important;
+	background: rgba(0, 173, 177, .09) !important;
+	color: var(--mx-teal-dark) !important;
+	outline: none;
+}
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-link:hover > i:first-child,
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-link:focus-visible > i:first-child { background: var(--mx-teal); color: #fff; transform: scale(1.06) rotate(-6deg); }
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-link:hover > i.mx-user-arrow,
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-link:focus-visible > i.mx-user-arrow { opacity: 1; transform: none; color: var(--mx-teal-dark); }
+/* sign out = red accent */
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-logout > i:first-child { background: rgba(229, 72, 77, .1); color: #E5484D; }
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li:hover > a.mx-user-logout,
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-logout:hover,
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-logout:focus-visible { background: rgba(229, 72, 77, .08) !important; color: #E5484D !important; }
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-logout:hover > i:first-child,
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-logout:focus-visible > i:first-child { background: #E5484D; color: #fff; }
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-logout:hover > i.mx-user-arrow,
+body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li > a.mx-user-logout:focus-visible > i.mx-user-arrow { color: #E5484D; }
+
+/* desktop: floating panel, right-aligned under the avatar, with a caret */
+@media (min-width: 992px) {
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user { position: relative; }
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu {
+		left: auto; right: 0;
+		width: 300px; min-width: 300px;
+		padding: 0 !important;
+		border-radius: 20px;
+		border: 1px solid var(--mx-line) !important;
+		background: #fff;
+		box-shadow: 0 30px 60px -18px rgba(8, 29, 48, .45);
+		transform-origin: 100% 0 !important;
+	}
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu::before {
+		content: ""; position: absolute; top: -6px; right: 30px;
+		width: 12px; height: 12px; border-radius: 2px;
+		background: var(--mx-navy); transform: rotate(45deg);
+	}
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li.mx-user-card { border-radius: 19px 19px 0 0; }
+	/* keyboard users: open on focus too (fade-down.css only handles :hover) */
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user:focus-within > ul.sub-menu.mx-user-menu { opacity: 1; visibility: visible; transform: rotateX(0deg); }
+	/* rows slide in one after the other */
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user:hover > ul.sub-menu.mx-user-menu > li,
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user:focus-within > ul.sub-menu.mx-user-menu > li { animation: mx-user-in .45s var(--mx-ease) both; }
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user:hover > ul.sub-menu.mx-user-menu > li:nth-child(2),
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user:focus-within > ul.sub-menu.mx-user-menu > li:nth-child(2) { animation-delay: .08s; }
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user:hover > ul.sub-menu.mx-user-menu > li:nth-child(3),
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user:focus-within > ul.sub-menu.mx-user-menu > li:nth-child(3) { animation-delay: .15s; }
+}
+@keyframes mx-user-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* mobile: lives inside the off-canvas menu (white panel) */
+@media (max-width: 991px) {
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user { text-align: left; }
+	body.mx-ui .mx-user-btn { margin: 8px 0 8px 17px !important; }
+	body.mx-ui .mx-user-dot { border-color: #fff; }
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu { width: auto !important; min-width: 0 !important; padding: 0 12px 10px !important; background: transparent !important; border: 0; opacity: 1; visibility: visible; transform: none; }
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li { margin: 0; }
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li:last-child { margin-bottom: 0; }
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li.mx-user-card { border-radius: 16px; padding: 14px; gap: 12px; }
+	body.mx-ui .mx-user-avatar { width: 48px; height: 48px; }
+	body.mx-ui .mx-user-avatar > img, body.mx-ui .mx-user-avatar > span { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	body.mx-ui .wsmenu > .wsmenu-list > li.mx-user > ul.sub-menu.mx-user-menu > li { animation: none !important; }
+	body.mx-ui .mx-user-btn, body.mx-ui .mx-user-link, body.mx-ui .mx-user-link > i { transition: none !important; }
+}

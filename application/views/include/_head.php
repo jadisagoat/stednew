@@ -43,7 +43,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<link href="<?php echo base_url() ?>theme_academy/css/modern.css?v=27" rel="stylesheet">
+<link href="<?php echo base_url() ?>theme_academy/css/modern.css?v=28" rel="stylesheet">
 <!-- Modern page groups (one file per group of pages) -->
 <link href="<?php echo base_url() ?>theme_academy/css/pages/course.css?v=4" rel="stylesheet">
 <link href="<?php echo base_url() ?>theme_academy/css/pages/content.css?v=3" rel="stylesheet">

@@ -41,6 +41,22 @@ $grid = array(
 );
 // 4. render
 $this->load->view('back_office/includes/dxgrid', $grid);
+// 4b. same tree as the old list: Group Category > Category > courses, expanded, with "(Course: n)" per group.
+//     Runs after dxgrid's own $(function) (registered first), so boGrid.grid exists.
+?>
+<script>
+$(function () {
+  var g = boGrid && boGrid.grid;
+  if (!g) return;
+  g.beginUpdate();
+  g.columnOption('group_category', 'groupIndex', 0);
+  g.columnOption('id_category_text', 'groupIndex', 1);
+  g.option('grouping.autoExpandAll', true);
+  g.option('summary', { groupItems: [{ column: 'title', summaryType: 'count', displayFormat: <?= bo_js(bo_module_label('course') . ': {0}') ?> }] });
+  g.endUpdate();
+});
+</script>
+<?php
 // 5. session cleanup
 $this->session->unset_userdata("success_message");
 $this->session->unset_userdata("error_message");

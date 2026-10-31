@@ -502,3 +502,37 @@ a:hover { color: var(--sted-orange); }
 .authentication-wrapper.authentication-basic .authentication-inner:before { filter: hue-rotate(-50deg) saturate(1.3); }
 .authentication-wrapper.authentication-basic .authentication-inner:after { filter: hue-rotate(135deg) saturate(1.4); }
 .authentication-wrapper .card { border-top: 4px solid var(--sted-teal); }
+
+/* ---------- Sidebar active state (29-10-2026): soft rounded pill instead of the white box + orange bar ---------- */
+.bg-menu-theme .menu-inner .menu-item > .menu-link { border-radius: 10px !important; transition: background-color .15s, color .15s; }
+.bg-menu-theme .menu-sub { padding-block: .2rem; }
+.bg-menu-theme .menu-sub > .menu-item { margin: 2px 0; }
+/* hover on inactive items: light tint, not the solid teal block */
+.bg-menu-theme .menu-inner .menu-item:not(.active) > .menu-link:hover,
+.bg-menu-theme .menu-inner .menu-item.open:not(.active) > .menu-link:hover { background-color: rgba(255, 255, 255, .07) !important; color: #fff !important; }
+/* open group header */
+.bg-menu-theme .menu-inner .active.open > .menu-link.menu-toggle,
+.bg-menu-theme .menu-inner .active.open > .menu-link.menu-toggle:hover { background-color: rgba(0, 173, 177, .16) !important; color: #fff !important; }
+.bg-menu-theme .menu-inner .active.open > .menu-link.menu-toggle .menu-icon { color: var(--sted-teal) !important; }
+/* active top-level link (e.g. Dashboard): teal gradient pill */
+.bg-menu-theme .menu-inner > .menu-item.active > .menu-link:not(.menu-toggle) {
+  background: linear-gradient(90deg, var(--sted-teal-dark), var(--sted-teal)) !important; color: #fff !important;
+  box-shadow: 0 6px 16px -8px rgba(0, 173, 177, .8) !important; }
+[dir=rtl] .bg-menu-theme .menu-inner > .menu-item.active > .menu-link:not(.menu-toggle) { background: linear-gradient(-90deg, var(--sted-teal-dark), var(--sted-teal)) !important; }
+.bg-menu-theme .menu-inner > .menu-item.active > .menu-link:not(.menu-toggle) .menu-icon { color: #fff !important; }
+/* active sub item: translucent white pill, white bold text, glowing orange dot */
+.bg-menu-theme .menu-sub > .menu-item.active > .menu-link:not(.menu-toggle),
+.bg-menu-theme .menu-sub > .menu-item.active > .menu-link:not(.menu-toggle):hover {
+  background: rgba(255, 255, 255, .1) !important; color: #fff !important; font-weight: 600; box-shadow: none !important; }
+[dir=rtl] .bg-menu-theme .menu-sub > .menu-item.active > .menu-link:not(.menu-toggle) { box-shadow: none !important; }
+.bg-menu-theme .menu-sub > .menu-item.active > .menu-link:before {
+  background-color: var(--sted-orange) !important; box-shadow: 0 0 0 4px rgba(241, 102, 36, .22); }
+/* dividers: core.css draws a white line under every item - keep a faint one between groups, none inside a submenu */
+.bg-menu-theme .menu-inner > .menu-item { border-bottom: 1px solid rgba(255, 255, 255, .06) !important; }
+.bg-menu-theme .menu-sub > .menu-item, .bg-menu-theme .menu-inner .menu-link.menu-toggle { border-bottom: 0 !important; }
+.bg-menu-theme .menu-sub > .menu-item { margin-inline: 0 !important; }
+/* stronger selectors: core.css forces border-radius:0 and theme-bordered forces a teal bullet */
+.layout-wrapper:not(.layout-horizontal) .bg-menu-theme .menu-inner .menu-item > .menu-link,
+.layout-wrapper:not(.layout-horizontal) .bg-menu-theme .menu-inner .menu-item.active .menu-link { border-radius: 10px !important; }
+.layout-wrapper .bg-menu-theme .menu-inner .menu-sub > .menu-item.active > .menu-link:not(.menu-toggle)::before {
+  background-color: var(--sted-orange) !important; box-shadow: 0 0 0 4px rgba(241, 102, 36, .22); }

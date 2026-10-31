@@ -33,3 +33,6 @@
 Thumbs.db
 *.log
 *.cache
+
+# ---- Server-generated error log (also blocked in .htaccess) ----
+error_log

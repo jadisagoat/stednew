@@ -285,46 +285,54 @@
 						<!-- SIMPLE NAVIGATION LINK -->
 						<li class="nl-simple" aria-haspopup="true"><a href="<?php echo base_url(); ?>contactus">Contact</a></li>
 
-						<!-- DROPDOWN MENU -->
-						<li class="nl-simple" aria-haspopup="true">
-							<?php
-							if (isset($login['idUser']) && $login['idUser']) { ?>
-								<div class="login_header_login lang-select">
-									<?php if ($login['fullname']) {
-
-										$myString = explode(" ", $login['fullname']);
-										$first = $last = 0;
-										if (isset($myString['0']) && $myString['0'])
-											$first = substr($myString['0'], 0, 1);
-
-										if (isset($myString['1']) && $myString['1'])
-											$last = substr($myString['1'], 0, 1);
-										/* Echo resulted string */
-										echo $first . "" . $last;
-										//echo $login['fullname']; 
-									} ?>
-									<!-- <span class="wsarrow"></span> -->
-
-									<?php //if($login["image"] != ""){ 
-									?>
-									<!-- <img src="< ?php  base_url(); ?>uploads/user/45x45/< ?php $login["image"];?>" width=45 style="float:left;margin-left:10px" /> -->
-									<? // } 
-									?>
+						<!-- USER MENU: avatar > profile card + links (styles: modern.css "HEADER - USER DROPDOWN") -->
+						<?php
+						$hd_logged = (isset($login['idUser']) && $login['idUser']);
+						if ($hd_logged) {
+							$hd_fullname = isset($login['fullname']) ? trim((string) $login['fullname']) : '';
+							$hd_mail = isset($login['email']) ? trim((string) $login['email']) : '';
+							// initials: first letter of the first two words of the name
+							$hd_initials = '';
+							if ($hd_fullname !== '') {
+								foreach (array_slice(preg_split('/\s+/u', $hd_fullname), 0, 2) as $hd_w) {
+									if ($hd_w !== '') $hd_initials .= mb_strtoupper(mb_substr($hd_w, 0, 1, 'UTF-8'), 'UTF-8');
+								}
+							}
+							if ($hd_initials === '') $hd_initials = '?';
+							$hd_avatar = (!empty($login['image']) && is_file('uploads/user/' . $login['image'])) ? base_url() . 'uploads/user/' . rawurlencode($login['image']) : '';
+							$hd_role = isset($login['id_init_role']) ? (int) $login['id_init_role'] : 0;
+							$hd_role_label = array(1 => 'Administrator', 2 => 'Lecturer', 3 => 'Learner');
+							$hd_role_icon = array(1 => 'fa-solid fa-shield-halved', 2 => 'fa-solid fa-chalkboard-user', 3 => 'fa-solid fa-graduation-cap');
+							$hd_name = htmlspecialchars($hd_fullname, ENT_QUOTES, 'UTF-8');
+							$hd_email = htmlspecialchars($hd_mail, ENT_QUOTES, 'UTF-8');
+							$hd_ini = htmlspecialchars($hd_initials, ENT_QUOTES, 'UTF-8');
+						}
+						?>
+						<li class="nl-simple<?php echo $hd_logged ? ' mx-user' : ''; ?>" aria-haspopup="true">
+							<?php if ($hd_logged) { ?>
+								<div class="login_header_login lang-select mx-user-btn" role="button" tabindex="0" aria-label="Account menu">
+									<?php if ($hd_avatar) { ?><img src="<?php echo $hd_avatar; ?>" alt=""><?php } else { echo $hd_ini; } ?>
+									<i class="mx-user-dot" aria-hidden="true"></i>
 								</div>
-								<ul class="sub-menu last-sub-menu">
-									<li aria-haspopup="true">
-										<div class="user-profile-dropdown-module--user-details--1ypfV">
-											<div class="ud-heading-xl"><span style=""><?php echo $first . "" . $last; ?></span></div>
-											<div class="user-profile-dropdown-module--email--QPfBN">
-												<?php echo $login['fullname']; ?><br>
-												<span><?php echo $login['email']; ?></span>
-											</div>
+								<ul class="sub-menu last-sub-menu mx-user-menu">
+									<li class="mx-user-card">
+										<span class="mx-user-glow" aria-hidden="true"></span>
+										<span class="mx-user-dots" aria-hidden="true"></span>
+										<div class="mx-user-avatar">
+											<?php if ($hd_avatar) { ?><img src="<?php echo $hd_avatar; ?>" alt=""><?php } else { ?><span><?php echo $hd_ini; ?></span><?php } ?>
+										</div>
+										<div class="mx-user-who">
+											<b title="<?php echo $hd_name; ?>"><?php echo $hd_name; ?></b>
+											<?php if ($hd_email !== '') { ?><small title="<?php echo $hd_email; ?>"><?php echo $hd_email; ?></small><?php } ?>
+											<?php if (isset($hd_role_label[$hd_role])) { ?>
+												<span class="mx-user-role"><i class="<?php echo $hd_role_icon[$hd_role]; ?>" aria-hidden="true"></i><?php echo $hd_role_label[$hd_role]; ?></span>
+											<?php } ?>
 										</div>
 									</li>
-									<li aria-haspopup="true"><a href="<?php echo base_url(); ?>edit-profile">Edit Profile</a></li>
-									<li aria-haspopup="true"><a href="<?php echo base_url(); ?>logout">Sign out</a></li>
+									<li><a href="<?php echo base_url(); ?>edit-profile" class="mx-user-link"><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i><span>Edit Profile</span><i class="fa-solid fa-chevron-right mx-user-arrow" aria-hidden="true"></i></a></li>
+									<li class="mx-user-foot"><a href="<?php echo base_url(); ?>logout" class="mx-user-link mx-user-logout"><i class="fa-solid fa-right-from-bracket fa-fw" aria-hidden="true"></i><span>Sign out</span><i class="fa-solid fa-chevron-right mx-user-arrow" aria-hidden="true"></i></a></li>
 								</ul>
-							<?php } else {  ?>
+							<?php } else { ?>
 								<button type="button" class="login_header" data-toggle="modal" data-target="#myModal">
 									Login
 								</button>

@@ -80,19 +80,11 @@ $bo_dash_active = ($menu_left_seg1 == 'home') || !$bo_any_active;
 </li>
 <?php foreach ($bo_groups as $g) { if (!count($g['items'])) continue; ?>
 <li class="menu-header small text-uppercase"><span class="menu-header-text"><?= htmlspecialchars($g['label'], ENT_QUOTES, 'UTF-8') ?></span></li>
-<?php foreach ($g['items'] as $it) {
-    if ($it['kind'] == 'submenu') { ?>
-<li class="menu-item <?= $it['active'] ? 'active open' : '' ?>">
-<a href="javascript:void(0);" class="menu-link menu-toggle"><i class="menu-icon tf-icons bx <?= $it['icon'] ?>"></i><div><?= $it['label'] ?></div></a>
-<ul class="menu-sub">
-<li class="menu-item <?= ($it['active'] && $menu_left_seg2 != 'add') ? 'active' : '' ?>"><a href="<?= base_url() ?>back_office/<?= $it['url'] ?>" class="menu-link"><div><?= $it['list'] ?></div></a></li>
-<li class="menu-item <?= ($it['active'] && $menu_left_seg2 == 'add') ? 'active' : '' ?>"><a href="<?= base_url() ?>back_office/<?= $it['url_add'] ?>" class="menu-link"><div><?= $it['new'] ?></div></a></li>
-</ul>
-</li>
-<?php } else { ?>
+<?php /* one direct link per module to its list page (the list has the Add button); stays active on add/edit */
+foreach ($g['items'] as $it) { ?>
 <li class="menu-item <?= $it['active'] ? 'active' : '' ?>">
 <a href="<?= base_url() ?>back_office/<?= $it['url'] ?>" class="menu-link"><i class="menu-icon tf-icons bx <?= $it['icon'] ?>"></i><div><?= $it['label'] ?></div></a>
 </li>
-<?php } } } ?>
+<?php } } ?>
 </ul>
 </aside>

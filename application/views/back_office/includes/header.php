@@ -13,9 +13,28 @@ $bo_show_users = (($user_rule == 1 && $bo_level != 0) || $bo_level == 1);
 ?>
 <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
 <div class="container-fluid">
-<div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-<a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)" title="<?= bo_t('nav_menu') ?>"><i class="bx bx-menu bx-sm"></i></a>
+<?php // sidebar toggle on EVERY screen size (was d-xl-none: desktop had no way to collapse the menu).
+// Sneat's main1.js binds the click on .layout-menu-toggle: small screens open/close the off-canvas menu,
+// desktop collapses it to icons and remembers the state in localStorage (config.enableMenuLocalStorage). ?>
+<div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-2">
+<button type="button" class="nav-item nav-link px-0 bo-menu-toggle" id="bo-menu-toggle" aria-controls="layout-menu" aria-expanded="true"
+ title="<?= bo_t('nav_menu_collapse') ?>" aria-label="<?= bo_t('nav_menu_collapse') ?>"
+ data-label-collapse="<?= bo_t('nav_menu_collapse') ?>" data-label-expand="<?= bo_t('nav_menu_expand') ?>"><i class="bx bx-menu bx-sm" aria-hidden="true"></i></button>
 </div>
+<script>
+// keep the button's name/state in sync with the menu (for screen readers and the tooltip)
+document.addEventListener('DOMContentLoaded', function () {
+  var b = document.getElementById('bo-menu-toggle'); if (!b || !window.Helpers) return;
+  function sync() {
+    var collapsed = window.Helpers.isCollapsed();
+    var label = b.getAttribute(collapsed ? 'data-label-expand' : 'data-label-collapse');
+    b.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    b.setAttribute('aria-label', label); b.setAttribute('title', label);
+    b.classList.toggle('is-collapsed', collapsed);
+  }
+  sync(); window.addEventListener('layouttoggle', sync); window.addEventListener('resize', sync);
+});
+</script>
 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 <?php if ($seg != "home") { ?>
 <a href="javascript:history.go(-1)" class="btn btn-sm btn-outline-secondary bo-back me-2" title="<?= bo_t('nav_back') ?>"><i class="bx bx-arrow-back"></i><span class="d-none d-md-inline ms-1"><?= bo_t('nav_back') ?></span></a>
